@@ -1,5 +1,5 @@
 (function() {
-  var Display, _;
+  var Display;
 
   Display = (function() {
     function Display(dim) {
@@ -21,14 +21,27 @@
       };
     }
 
+    Display.prototype.print = function(number) {
+      var chars, _i, _ref, _results;
+      chars = _.map(number.toString().split(''), function(char) {
+        return this.draw(char);
+      }, this);
+      return _.each((function() {
+        _results = [];
+        for (var _i = 0, _ref = 2 + (this.dim * 2); 0 <= _ref ? _i <= _ref : _i >= _ref; 0 <= _ref ? _i++ : _i--){ _results.push(_i); }
+        return _results;
+      }).apply(this), function(n) {
+        _.each(chars, function(l) {
+          return process.stdout.write(l[n] + " ");
+        });
+        return process.stdout.write("\n");
+      });
+    };
+
     Display.prototype.draw = function(number) {
       return _.flatten(_.map(this.config[number], (function(_this) {
         return function(config, index) {
-          if (index === 1 || index === 3) {
-            return _this.drawLine(config, true);
-          } else {
-            return _this.drawLine(config);
-          }
+          return _this.drawLine(config, index === 1 || index === 3);
         };
       })(this)));
     };
@@ -83,8 +96,6 @@
     return Display;
 
   })();
-
-  _ = require('underscore');
 
   module.exports = Display;
 

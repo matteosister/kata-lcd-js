@@ -14,12 +14,18 @@ class Display
             9: ['O', 'LR', 'O', 'R', 'O']
         }
 
+    print: (number) ->
+        chars = _.map number.toString().split(''), (char) ->
+            @draw(char)
+        , @
+        _.each [0..(2 + (@dim * 2))], (n) ->
+            _.each chars, (l) ->
+                process.stdout.write(l[n] + " ")
+            process.stdout.write("\n")
+
     draw: (number) ->
         _.flatten _.map @config[number], (config, index) =>
-            if index in [1, 3]
-                @drawLine(config, true)
-            else
-                @drawLine(config)
+            @drawLine config, index in [1, 3]
 
     drawLine: (type, considerDim = false) ->
         switch type
@@ -36,6 +42,4 @@ class Display
 
     # repeat v for n times
     repeat: (v, n) ->
-        _.map [1..n], ->
-            v
-        .join('')
+        _.map([1..n], -> v).join('')

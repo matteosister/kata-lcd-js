@@ -23,6 +23,11 @@ module.exports = (grunt) ->
           join: true
         files:
           'dist/module.js': ['src/Display.coffee', 'src/module.coffee']
+      app:
+        options:
+          bare: true
+        files:
+            'app.js': ['app.coffee']
 
     jasmine:
       all:
